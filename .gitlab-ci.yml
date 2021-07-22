@@ -1,0 +1,27 @@
+image: maven:3.8.1-jdk-11
+
+variables:
+  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -s ci_settings.xml -DinstallAtEnd=true -DdeployAtEnd=true"
+
+stages:
+  - package
+  - deploy
+
+cache:
+  paths:
+    - .m2/repository
+
+package:
+  stage: package
+  script:
+    - 'mvn $MAVEN_CLI_OPTS package'
+  artifacts:
+    paths:
+      - target/*.jar
+    expire_in: 1 week
+deploy:
+  stage: deploy
+  script: 'mvn $MAVEN_CLI_OPTS deploy'
+  only:
+    - master

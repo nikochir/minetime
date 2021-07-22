@@ -1,0 +1,49 @@
+#main#
+name: minetime
+version: ${project.version}
+main: nikochir.minetime.Main
+api-version: 1.16
+#work#
+load: STARTUP
+loadbefore: []
+depend: [ MongoAPI ]
+softdepend: []
+database: true
+commands:
+  minetime:
+    alias: ["mtime"]
+    usage: /<command> [type] [sign]
+    permission: minetime.user
+    permission-message: you do not have /<permission>
+  usertime:
+    alias: ["mtime_user"]
+    usage: /<command> [username]
+    permission: minetime.oper
+    permission-message: only admins with specific rights can use this
+permissions:
+  minetime.user:
+    default: true
+    children:
+      #
+    description:
+      gives access to simple commands
+  minetime.oper:
+    default: true
+    children:
+      #
+    description:
+      gives access to advanced features
+  minetime.over:
+    default: true
+    children:
+      #
+    description:
+      gives access to the strongest stuff
+#info#
+prefix: mtime
+author: Tanwar
+authors: [ Nickodim, Tanwar ]
+website: "https://github.com/nikochir/minecode"
+description:
+  time checking and management plugin
+#endfile#

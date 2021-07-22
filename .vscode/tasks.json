@@ -1,0 +1,17 @@
+{
+    /* main */
+    "version": "2.0.0",
+    /* exec */
+    "tasks": [
+        {
+            /* main */
+            "label": "init",
+            /* exec */
+            "command": { "value":[], "quoting": "weak" },
+        },
+    ],
+    "osx": {},
+    "linux": {},
+    "windows": {},
+}
+/* endfile */

@@ -1,0 +1,132 @@
+{
+	"folders": [
+		{
+			"name": "minetime",
+			"path": "../"
+		},
+	],
+	"settings": {
+		/* vscode */
+		/** files **/
+		"files.exclude": {
+			"**/.git": false,
+			"**/.target": false,
+			"**/.classpath": false,
+		},
+		/** editor **/
+		"editor.fontSize": 12,
+		"editor.fontWeight": 400,
+		"editor.fontLigatures":  true,
+		"editor.fontFamily": "Source Code Pro, MonoId Inconsolata, Consolas, Courier New, monospace",
+		/** terminal **/
+		"terminal.explorerKind": "integrated",
+		"terminal.integrated.gpuAcceleration": "on",
+		"terminal.integrated.cwd": "${workspaceFolder}",
+		"terminal.integrated.splitCwd": "workspaceRoot",
+		"terminal.integrated.confirmOnExit": true,
+		"terminal.integrated.scrollback": 1000,
+		/*** cursor ***/
+		"terminal.integrated.cursorBlinking": true,
+		"terminal.integrated.cursorStyle": "block",
+		"terminal.integrated.cursorWidth": 1,
+		/*** scroll ***/
+		"terminal.integrated.mouseWheelScrollSensitivity": 1,
+		"terminal.integrated.fastScrollSensitivity": 5,
+		/*** text ***/
+		"terminal.integrated.drawBoldTextInBrightColors": true,
+		"terminal.integrated.unicodeVersion": "6",
+		"terminal.integrated.letterSpacing": 0,
+		"terminal.integrated.lineHeight": 1,
+		"terminal.integrated.fontSize": 12,
+		"terminal.integrated.fontWeight": 400,
+		"terminal.integrated.fontWeightBold": 1000,
+		"terminal.integrated.fontFamily": "MonoId, Source Code Pro",
+		"terminal.integrated.wordSeparators": " ()[]{}',\"`─",
+		/*** tabs ***/
+		"terminal.integrated.tabs.showActiveTerminal": "always",
+		/* extensions */
+		/** drawio **/
+		"hediet.vscode-drawio.offline": true,
+		"hediet.vscode-drawio.theme": "dark",
+		"hediet.vscode-drawio.online-url": "https://embed.diagrams.net/",
+		"hediet.vscode-drawio.plugins": [],
+		"hediet.vscode-drawio.knownPlugins": [],
+		"hediet.vscode-drawio.customLibraries": [],
+		"hediet.vscode-drawio.customColorSchemes": [],
+		"hediet.vscode-drawio.customFonts": [ "Consolas", "MonoId", "Source Code Pro" ],
+		/** dashboard **/
+		"dashboard.openOnStartup": "empty workspace",
+		"dashboard.projectTileWidth": 300,
+		/*** view ***/
+		"dashboard.displayProjectPath": true,
+		"dashboard.showAddProjectButtonTile": true,
+		/*** custom ***/
+		"dashboard.customCss": "",
+		// "dashboard.customProjectCardBackground": "#aaaaaa",
+		// "dashboard.customProjectNameColor": "#ffffff",
+		// "dashboard.customProjectPathColor": "#777777",
+		/** java **/
+		"java.home": "f:/cdev/jdk",
+		"java.trace.server": "off",
+		"java.server.launchMode": "Hybrid",
+		"java.contentProvider.preferred": "",
+		"java.settings.url": "${workspaceFolder}/mvn/settings.xml",
+		/*** project ***/
+		"java.project.outputPath": "bin",
+		"java.project.exportJar.targetPath": "${workspaceFolder}/bin/${workspaceFolderBasename}.jar",
+		"java.project.sourcePaths": [ "../" ],
+		"java.project.referencedLibraries": [ "lib/**/*.jar", ],
+		"java.project.resourceFilters": [ "node_modules", ".git" ],
+		/*** configuration ***/
+		"java.configuration.checkProjectSettingsExclusions": false,
+		"java.configuration.updateBuildConfiguration": "disabled",
+		"java.configuration.maven.userSettings": "${workspaceFolder}/mvn/settings.xml",
+		"java.configuration.maven.globalSettings": "${workspaceFolder}/mvn/settings.xml",
+		/*** completion ***/
+		"java.completion.enabled": true,
+		"java.completion.overwrite": true,
+		/*** format ***/
+		"java.format.enabled": true,
+		"java.format.onType.enabled": true,
+		"java.format.comments.enabled": true,
+		"java.format.settings.url": "",
+		"java.format.settings.profile": "",
+		/*** debug ***/
+		"java.debug.settings.forceBuildBeforeLaunch": true,
+		"java.debug.settings.showToString": true,
+		"java.autobuild.enabled": false,
+		"java.debug.settings.showHex": true,
+		"java.dependency.packagePresentation": "hierarchical",
+		"java.eclipse.downloadSources": false,
+		/*** import ***/
+		"java.import.maven.enabled": true,
+		/*** codegen ***/
+		"java.codeGeneration.generateComments": true,
+		"java.templates.fileHeader": [
+			"/* package */",
+			"package ${package_name};",
+			"/* include */",
+			"import ${package_name}.*;",
+			"/* typedef */",
+			"/* endfile */",
+		],
+		"java.templates.typeComment": [
+			"/* ${type_name}",
+			" * > Description:",
+			" * -> ;",
+			"*/"
+		],
+		/** maven **/
+		"maven.view": "hierarchical",
+		"maven.excludedFolders": [],
+		"maven.terminal.customEnv": [],
+		"maven.terminal.favorites": [],
+		"maven.terminal.useJavaHome": true,
+		"maven.executable.options": "",
+		"maven.executable.preferMavenWrapper": false,
+		/** vsintellicode **/
+		"vsintellicode.java.completionsEnabled": true,
+		"vsintellicode.modelDownloadPath": null,
+	}
+}
+/* endfile */

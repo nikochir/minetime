@@ -1,0 +1,34 @@
+{
+    "version": "0.2.0",
+    "inputs": [],
+    "launch": {
+		"configurations": [ "config:launch_test" ],
+		"compounds": [ "compon:launch_test" ]
+	},
+    "configurations": [
+        {
+            "name": "config:launch_test",
+            "projectName": "minetime",
+            "type": "java",
+            "request": "launch",
+            "mainClass": "src.test.nikochir.minetime.Main",
+            "classPaths": [ "$Auto" ],
+        }
+    ],
+    "compounds": [
+        {
+            "name": "compon:launch_test",
+            "configurations": [
+                { "name": "config:launch_test", "folder": "minetime" }
+            ],
+            "preLaunchTask": "",
+            "stopAll": false,
+            "presentation": {
+                "hidden": false,
+                "group": "launch",
+                "order": 1
+            }
+        }
+    ]
+}
+/* endfile */

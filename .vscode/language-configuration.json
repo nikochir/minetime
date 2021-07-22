@@ -1,0 +1,47 @@
+{
+    "autoCloseBefore": ";:.,=}])> \n\t",
+    "autoClosingPairs": [
+        [ "(", ")" ],
+        [ "[", "]" ],
+        [ "{", "}" ],
+        [ "<", ">" ],
+    ],
+    "brackets": [
+        [ "(", ")" ],
+        [ "[", "]" ],
+        [ "{", "}" ],
+        [ "<", ">" ]
+    ],
+    "surroundingPairs": [
+        [ "(", ")" ],
+        [ "[", "]" ],
+        [ "{", "}" ],
+        [ "<", ">" ]
+    ],
+    "comments": {
+        "blockComment": [ "/*", "*/" ],
+        "lineComment": "//",
+    },
+    "folding": {
+        "markers": { "start": "", "end": "" },
+        "offSide": true
+    },
+    "indentationRules": {
+        "increaseIndentPattern": "",
+        "decreaseIndentPattern": ""
+    },
+    "onEnterRules": [
+        {
+            "action": {
+                "indent": "indent",
+                "appendText": "",
+                "removeText": 0
+            },
+            "afterText": "",
+            "beforeText": "",
+            "previousLineText": ""
+        }
+    ],
+    "wordPattern": ""
+}
+/* endfile */
