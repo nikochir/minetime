@@ -1,4 +1,4 @@
-# Player Activity Stat #
+# minetime #
 ## description ##
 * minecraft paperapi plugin for player server time;
 ## languages ##

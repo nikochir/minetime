@@ -47,25 +47,35 @@
       <id>papermc-repo</id>
       <url>https://papermc.io/repo/repository/maven-public/</url>
     </repository>
-		<!-- others -->
-    <repository>
-      <id>sonatype</id>
-      <url>https://oss.sonatype.org/content/groups/public/</url>
-    </repository>
+		<!-- database -->
+    <!--repository>
+      <id>mongodb</id>
+      <url>https://mvnrepository.com/artifact/org.mongodb</url>
+      <name>repodata</name>
+    </repository-->
   </repositories>
   <!-- what artifacts to use -->
   <dependencies>
+    <!-- native -->
+    <!-- minecraft -->
     <dependency>
       <groupId>com.destroystokyo.paper</groupId>
       <artifactId>paper-api</artifactId>
       <version>1.16.5-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
+    <!-- database -->
     <dependency>
-      <groupId>me.kolossa</groupId>
-      <artifactId>MongoAPI</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <scope>provided</scope>
+      <groupId>org.mongodb</groupId>
+      <artifactId>mongodb-driver</artifactId>
+      <version>3.2.2</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mongodb</groupId>
+      <artifactId>bson</artifactId>
+      <version>4.2.1</version>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
   <!-- resulting target configuration -->
@@ -86,10 +96,10 @@
       </resource>
     </resources>
 		<testResources>
-      <resource>
+      <testResource>
         <directory>${project.basedir}/../rsc/test</directory>
         <filtering>true</filtering>
-      </resource>
+      </testResource>
     </testResources>
     <!-- lock down plugins versions to avoid using maven defaults -->
 		<pluginManagement>

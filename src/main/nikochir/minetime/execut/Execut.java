@@ -1,46 +1,57 @@
-package minetime.nikochir.minetime.execut
-
-import me.kolossa.playeractivitystat.PlayerActivityStat;
-import me.kolossa.playeractivitystat.TextConstants;
+/* package */
+package src.main.nikochir.minetime.execut;
+/* include */
+import src.main.nikochir.minetime.Main;
+/** bukkit **/
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
-public class PlayerActivityCommand implements CommandExecutor {
+/* typedef */
+/** Executor class
+ * > Description:
+ * -> ;
+ */
+public class Execut implements CommandExecutor {
+    /* handles */
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        System.out.println("inside that");
-        Player player = (Player) sender;
-
-        System.out.println("total time spent out chk: ");
-        if (player.hasPermission("PlayerActivityStat.viewOnlineTime") ) {
-            if (args.length != 2) {
-                System.out.println(TextConstants.CONSOLE_PREFIX + "/playerActivity <Name> <Days>");
-                return false;
-            }
-            System.out.println("inside this");
-            String name = args[0];
-            int days;
+    public boolean onCommand(
+        @NotNull CommandSender objSender,
+        @NotNull Command objCommand,
+        @NotNull String strLabel,
+        @NotNull String[] strArgs
+    ) {
+        Player objPlayer = (Player) objSender;
+        if (strArgs.length == 0) {
+            Main.get().doLogO("invalid argument count: %d;", strArgs.length);
+            return false;
+        } else if (strArgs.length == 1) {
+            Main.get().doLogO("invalid argument count: %d;", strArgs.length);
+            return false;
+        } else if (strArgs.length == 2) {
+                String strName = strArgs[0];
+                Integer numDaysArg = null;
             try {
-                days = Integer.parseInt(args[1]);
+                numDaysArg = Integer.parseInt(strArgs[1]);
             } catch (Exception exception) {
-                days = 1;
-                System.out.println(TextConstants.CONSOLE_PREFIX + "Invalid input.");
+                numDaysArg = 1;
+                Main.get().doLogO("invalid days input!");
             }
-
-            PlayerActivityStat.getInstance().getPlayerActivityManager().getActivityDuration(name, days).thenAcceptAsync(onlineTime -> {
-                System.out.println("total time spent: by " + name + " - " + onlineTime );
-                double activeTimeInMinutes = onlineTime/60000;
-                player.sendMessage(TextConstants.CHAT_PREFIX + "§7Online time in minutes: §6" + activeTimeInMinutes);
-            });
-            System.out.println("total time spent: by " + name + " in " + days + " days");
+            final int numDays = numDaysArg;
+            Main.get().getDuration(strName, numDays)
+                .thenAcceptAsync(
+                    numOnlineTime -> {
+                        Main.get().doLogO(objPlayer,
+                            "total time of \"%s\": %d hours (%d minutes) for %d days;",
+                            strName, numOnlineTime, numDays / 60000, numDays
+                        );
+                    }
+                );
         } else {
-            System.out.println("nope");
-            player.sendMessage(TextConstants.CHAT_PREFIX + "§7Sorry! You are not authorized for this operation §6");
+            Main.get().doLogO("invalid argument count: %d;", strArgs.length);
+            return false;
         }
-
         return true;
     }
 }

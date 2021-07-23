@@ -7,12 +7,28 @@
 	},
     "configurations": [
         {
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "mainClass": "src.test.nikochir.minetime.Main",
+            "projectName": "minetime_a882764c"
+        },
+        {
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "minetime_a882764c"
+        },
+        {
             "name": "config:launch_test",
             "projectName": "minetime",
             "type": "java",
             "request": "launch",
             "mainClass": "src.test.nikochir.minetime.Main",
-            "classPaths": [ "$Auto" ],
+            "classPaths": [
+                "$Auto"
+            ]
         }
     ],
     "compounds": [

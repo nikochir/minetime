@@ -1,5 +1,5 @@
 /* package */
-package nikochir.minetime;
+package src.test.nikochir.minetime;
 /* include */
 /* typedef */
 /* Main
@@ -9,6 +9,7 @@ package nikochir.minetime;
 public class Main {
     /* actions */
     public static void main(String[] strArgs) {
+        System.out.println("HelloNativeWorld!");
     }
 }
 /* endfile */
