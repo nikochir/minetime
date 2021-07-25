@@ -1,42 +1,40 @@
 /* package */
 
-package src.main.nikochir.minetime.listen;
+package nikochir.minetime.listen;
 
 /* include */
 
-import src.main.nikochir.minetime.Main;
+import nikochir.minetime.Main;
+import nikochir.minetime.listen.*;
 
 /* bukkit */
 
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 
-import org.bukkit.entity.Player;
 
 /* typedef */
 
-/** Listener class
+/* Listen class
  * > Description:
  * -> ;
- */
+*/
 public class Listen implements Listener {
 
     /* actions */
 
-    /* handles */
+    static public boolean doInit() {
+        
+        Main.setListen("player", new ListenPlayer());
 
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-        Player objPlayer = event.getPlayer();
-        Main.get().onUserJoin(objPlayer.getUniqueId(), objPlayer.getName());
+        return true;
+    
     }
 
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        Player objPlayer = event.getPlayer();
-        Main.get().onUserQuit(objPlayer.getUniqueId(), objPlayer.getName());
+    static public boolean doQuit() {
+        
+        return true;
+    
     }
+
 }
 /* endfile */

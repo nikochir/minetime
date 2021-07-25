@@ -5,9 +5,79 @@
     "tasks": [
         {
             /* main */
-            "label": "init",
+            "type": "shell",
+            "label": "get_deps_bin",
+            "detail": "download maven dependencies as binary files in .jar",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/mvn",
+                "env": {},
+                "shell": {
+                    "args": [],
+                    "executable": "cmd.exe"
+                }
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
             /* exec */
-            "command": { "value":[], "quoting": "weak" },
+            "command": {
+                "value": [ "mvn dependency:copy-dependencies" ],
+                "quoting": "weak"
+            },
+            "presentation": {
+                "group": "maven",
+                "reveal": "always",
+                "revealProblems": "always",
+                "echo": true,
+                "focus": false,
+                "panel": "shared",
+                "clear": false,
+                "showReuseMessage": true,
+            },
+        },
+        {
+            /* main */
+            "type": "shell",
+            "label": "get_deps_src",
+            "detail": "download maven dependencies as binary files in .jar",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/mvn",
+                "env": {},
+                "shell": {
+                    "args": [],
+                    "executable": "cmd.exe"
+                }
+            },
+            "runOptions": {
+                "instanceLimit": 1,
+                "reevaluateOnRerun": true,
+                "runOn": "default"
+            },
+            /* exec */
+            "command": {
+                "value": [ "mvn dependency:copy-dependencies" ],
+                "quoting": "weak"
+            },
+            "presentation": {
+                "group": "maven",
+                "reveal": "always",
+                "revealProblems": "always",
+                "echo": true,
+                "focus": false,
+                "panel": "shared",
+                "clear": false,
+                "showReuseMessage": true,
+            },
         },
     ],
     "osx": {},

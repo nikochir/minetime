@@ -4,23 +4,35 @@
 			"name": "minetime",
 			"path": "../"
 		},
+		{
+			"name": "server",
+			"path": "../../server/local"
+		},
 	],
 	"settings": {
 		/* vscode */
 		/** files **/
 		"files.exclude": {
+			/* git */
 			"**/.git": false,
+			"**/.gitignore": false,
+			"**/.gitmessage": false,
+			/* java */
 			"**/.project": false,
 			"**/.classpath": false,
 			"**/.settings": false,
 			"**/.target": false,
 		},
 		/** editor **/
+		"editor.wordWrap": "off",
+		"editor.wordWrapColumn": 80,
+		/*** text ***/
 		"editor.fontSize": 14,
 		"editor.fontWeight": 400,
 		"editor.fontLigatures":  true,
 		"editor.fontFamily":
-		"Inconsolata, Consolas, Courier New, monospace",
+		"Inconsolata, MonoId, Source Code Pro, Consolas, Courier New, monospace",
+		"editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?_",
 		/** terminal **/
 		"terminal.explorerKind": "integrated",
 		"terminal.integrated.gpuAcceleration": "on",
@@ -29,6 +41,7 @@
 		"terminal.integrated.confirmOnExit": true,
 		"terminal.integrated.scrollback": 1000,
 		/*** cursor ***/
+		"terminal.integrated.altClickMovesCursor": true,
 		"terminal.integrated.cursorBlinking": true,
 		"terminal.integrated.cursorStyle": "block",
 		"terminal.integrated.cursorWidth": 1,
@@ -44,8 +57,8 @@
 		"terminal.integrated.fontWeight": 400,
 		"terminal.integrated.fontWeightBold": 1000,
 		"terminal.integrated.fontFamily":
-		"Inconsolata, Consolas, Courier New, monospace",
-		"terminal.integrated.wordSeparators": " ()[]{}',\"`─",
+		"Inconsolata, MonoId, Source Code Pro, Consolas, Courier New, monospace",
+		"terminal.integrated.wordSeparators": " ()[]{}',\"`─_",
 		/*** tabs ***/
 		"terminal.integrated.tabs.showActiveTerminal": "always",
 		/* extensions */
@@ -58,7 +71,7 @@
 		"hediet.vscode-drawio.customLibraries": [],
 		"hediet.vscode-drawio.customColorSchemes": [],
 		"hediet.vscode-drawio.customFonts":
-		[ "Source Code Pro", "MonoId", "Inconsolata" ],
+		[ "Inconsolata", "MonoId", "Source Code Pro" ],
 		/** dashboard **/
 		"dashboard.openOnStartup": "empty workspace",
 		"dashboard.projectTileWidth": 300,
@@ -66,7 +79,7 @@
 		"dashboard.displayProjectPath": true,
 		"dashboard.showAddProjectButtonTile": true,
 		/*** custom ***/
-		"dashboard.customCss": "",
+		"dashboard.customCss": "font-family: Inconsolata;",
 		"dashboard.customProjectCardBackground": "#333333",
 		"dashboard.customProjectNameColor": "#ffffff",
 		"dashboard.customProjectPathColor": "#777777",
@@ -83,18 +96,13 @@
 		"${workspaceFolder}/bin/target/${workspaceFolderBasename}.jar",
 		"java.project.sourcePaths":
 		[
-			""
+			"./src/main/", "./src/test/",
+			"./minecord/src/main/", "./minecord/src/test/",
+			"./mineguis/src/main/", "./mineguis/src/test/",
+			"./minetime/src/main/", "./minetime/src/test/",
 		],
 		"java.project.referencedLibraries":
-		[
-			"bin/dependency/**/*.jar",
-			"lib/**/*.jar",
-			"bin/dependency/mongodb-driver-core-3.2.2.jar",
-			"bin/dependency/mongodb-driver-3.2.2.jar",
-			"bin/dependency/bson-4.2.1.jar",
-			"bin/dependency/paper-api-1.16.5-R0.1-SNAPSHOT.jar",
-			"bin/dependency/guava-21.0.jar"
-		],
+		[ "lib/**/*.jar", "bin/dependency/**/*.jar" ],
 		"java.project.resourceFilters": [ "node_modules", ".git" ],
 		/*** configuration ***/
 		"java.configuration.checkProjectSettingsExclusions": false,
@@ -126,11 +134,15 @@
 		"java.templates.fileHeader":
 		[
 			"/* package */",
+			"",
 			"package ${package_name};",
+			"",
 			"/* include */",
+			"",
 			"import ${package_name}.*;",
+			"",
 			"/* typedef */",
-			"/* endfile */",
+			""
 		],
 		"java.templates.typeComment":
 		[

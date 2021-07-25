@@ -1,7 +1,7 @@
 #main#
 name: minetime
 version: 001
-main: src.main.nikochir.minetime.Main
+main: nikochir.minetime.Main
 api-version: 1.16
 #work#
 load: STARTUP

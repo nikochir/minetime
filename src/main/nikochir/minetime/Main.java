@@ -1,275 +1,156 @@
 /* pakcage */
 
-package src.main.nikochir.minetime;
+package nikochir.minetime;
 
 /* include */
 
-import src.main.nikochir.minetime.execut.Execut;
+import nikochir.minetime.config.Config;
+import nikochir.minetime.execut.Execut;
+import nikochir.minetime.listen.Listen;
+import nikochir.minetime.permit.Permit;
 
-import src.main.nikochir.minetime.listen.Listen;
-
-import src.main.nikochir.minetime.permit.Permit;
+import nikochir.minetime.kernel.Data;
+import nikochir.minetime.kernel.User;
 
 /** java **/
 
-import java.util.ArrayList;
-import java.util.List;
-
-import java.util.Date;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-
 import java.util.UUID;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import org.bukkit.plugin.PluginManager;
 
 /** bukkit **/
 
-import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.junit.runner.Computer;
 
-/** google **/
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
 
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
-
-/* mongodb */
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.BasicDBObjectBuilder;
-
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Updates;
-
-import com.mongodb.operation.OrderBy;
-
-/* bson */
-
-import org.bson.Document;
-
-import org.bson.conversions.Bson;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.HumanEntity;
 
 /* typedef */
 
 /** Main class
  * > Description:
  * -> ;
- */
+*/
 public final class Main extends JavaPlugin {
 
     /* members */
 
-    private static Main objInstance;
-    
-    private ExecutorService objExecutorService;
-    
-    private MongoClient objDBClient;
-    private MongoClientURI objDBClientURI;
-    private MongoDatabase objDBInstance;
-    private MongoCollection<Document> objDBCollection;
-    
-    private String strDatabaseConnection;
-    private String strNameofMain;
-    private String strNameofLogo;
-
-    /* getters */
-    
-    public static Main get() { return objInstance; }
-    
-    public Boolean getConfigBit(String strKey) { return this.getConfig().getBoolean(strKey); }
-    public Integer getConfigInt(String strKey) { return this.getConfig().getInt(strKey); }
-    public Double getConfigNum(String strKey) { return this.getConfig().getDouble(strKey); }
-    public String getConfigStr(String strKey) { return this.getConfig().getString(strKey); }
-    public String getConfigStrNameofMain()    { return this.strNameofMain; }
-    public String getConfigStrNameofLogo()    { return this.strNameofLogo; }
-
-    public CompletableFuture<Long> getDuration(String strName, int numDays) {
-        return CompletableFuture.supplyAsync(() -> {
-            
-            BasicDBObject query = new BasicDBObject();
-            query.put("name", strName);
-            query.put("online", 0);
-            query.put("time_join", BasicDBObjectBuilder.start(
-                "$gte",
-                LocalDateTime.now().minusDays(numDays)
-                .toEpochSecond(ZoneOffset.UTC) * 1000
-            ).add("$lte", LocalDateTime.now().toEpochSecond(ZoneOffset.UTC) * 1000).get());
-            
-            long numActiveTime = 0;
-            
-            MongoCursor<Document> cursor = this.objDBCollection.find(query).iterator();
-            
-            while(cursor.hasNext()) {
-                Document objDoc = (Document)cursor.next();
-                numActiveTime += objDoc.getLong("time_play");
-            }
-
-            return numActiveTime;
-
-        }, this.objExecutorService);
-    }
-    /* setters */
+    static private Main objInstance;
     
     /* vetters */
+
+    static public boolean vetPlayer(Player objPlayer)      { return get().getServer().getPlayer(objPlayer.getUniqueId()) != null; }
+    static public boolean vetPlayer(HumanEntity objEntity) { return get().getServer().getPlayer(objEntity.getUniqueId()) != null; }
+    static public boolean vetPlayer(UUID objUUID)          { return get().getServer().getPlayer(objUUID) != null; }
+    static public boolean vetPlayer(String strName)        { return get().getServer().getPlayer(strName) != null; }
     
-    public CompletableFuture<Boolean> vetUser(UUID objId) {
-        Bson objFilter = Filters.eq("uuid", objId.toString());
-        return CompletableFuture.supplyAsync(() -> {
-            return this.objDBCollection.count(objFilter) > 0;
-        }, this.objExecutorService);
+    /* getters */
+    
+    static public Main get() { return objInstance; }
+    
+    static public Player getPlayer(HumanEntity objEntity) { return get().getServer().getPlayer(objEntity.getUniqueId()); }
+    static public Player getPlayer(UUID objUUID)          { return get().getServer().getPlayer(objUUID); }
+    static public Player getPlayer(String strName)        { return get().getServer().getPlayer(strName); }
+
+    /* setters */
+    
+    static public boolean setExecut(String strName, Execut objExecut) {
+
+        PluginCommand objCommand = get().getCommand(strName);
+
+        if (objCommand == null) {
+            doLogE(
+                "command is not found! name: %s;",
+                strName
+            );
+            return false;
+        } else {
+            objCommand.setExecutor(objExecut);
+            return true;
+        }
+
+    }
+
+    static public boolean setListen(String strName, Listen objListen) {
+
+        PluginManager objManager = get().getServer().getPluginManager();
+
+        objManager.registerEvents(objListen, get());
+
+        return true;
+
+    }
+    
+    static public boolean setPermit(String strName, Permit objPermit) {
+
+        PluginManager objManager = get().getServer().getPluginManager();
+
+        objManager.addPermission(objPermit);
+
+        return true;
+
     }
     
     /* actions */
 
+    static private boolean doInit() {
 
-    /** initting **/
-
-    private boolean doInit() {
-
-        objInstance = this;
-
-        this.doInitExecut();
-        this.doInitListen();
-        this.doInitPermit();
-        this.doInitConfig();
-        this.doInitDatabase();
+        Execut.doInit();
+        Listen.doInit();
+        Permit.doInit();
+        Config.doInit();
+        Data.doInit();
+        User.doInit();
         
         return true;
     }
 
-    private boolean doInitExecut() {
+    static private boolean doQuit() {
         
-        this.getCommand("minetime").setExecutor(new Execut());;
-        
-        return true;
-    }
-    
-    private boolean doInitListen() {
+        User.doQuit();
+        Data.doQuit();
+        Config.doQuit();
+        Permit.doQuit();
+        Listen.doQuit();
+        Execut.doQuit();
 
-        this.getServer().getPluginManager().registerEvents(new Listen(), this);;
-        
         return true;
     }
-    
-    private boolean doInitPermit() {
+
+    static public boolean doLogO(String strFormat, Object... objArgs) {
         
-        this.getServer().getPluginManager().addPermission(new Permit());
-        
-        return true;
-    }
-    
-    private boolean doInitConfig() {
-        
-        this.getConfig().options().copyDefaults(true);
-        this.saveDefaultConfig();
-        
-        this.strNameofMain = this.getConfigStr("nameof_main");
-        this.strNameofLogo = this.getConfigStr("nameof_logo");
-        this.strDatabaseConnection = this.getConfigStr("database_connection");
+        System.out.println(Config.getStrNameOfLogO() + String.format(strFormat, objArgs));
 
         return true;
     }
     
-    private boolean doInitDatabase() {
-
-        this.objDBClientURI = new MongoClientURI(this.strDatabaseConnection);
-        this.objDBClient = new MongoClient(this.objDBClientURI);
-        this.objDBInstance = this.objDBClient.getDatabase(this.getConfig().getString("nameof_database"));
-        this.objDBCollection = this.objDBInstance.getCollection(this.getConfig().getString("nameof_collection"));
-
-        this.objExecutorService = Executors.newCachedThreadPool(
-            (new ThreadFactoryBuilder()).setNameFormat("minetime T-%1$d").build()
-        );
-
-        CompletableFuture<Void> objIndex = CompletableFuture.runAsync(() -> {
-            
-            int numOrderDescend = OrderBy.DESC.getIntRepresentation();
-
-            this.objDBCollection.createIndex(new Document("uuid", numOrderDescend) );
-            this.objDBCollection.createIndex(new Document("online", numOrderDescend) );
-            this.objDBCollection.createIndex(new Document("ofline", numOrderDescend) );
-            
-        }, this.objExecutorService);
-    
-        objIndex.thenRun(() -> this.doLogO("created player index"));
+    static public boolean doLogO(CommandSender objSender, String strFormat, Object... objArgs) {
         
-        return true;
-    }
-
-    /** quitting **/
-
-    private boolean doQuit() {
-        
-        this.doQuitDatabase();
-        this.doQuitConfig();
-        this.doQuitPermit();
-        this.doQuitListen();
-        this.doQuitExecut();
-
-        this.objInstance = null;
-
-        return true;
-    }
-
-    private boolean doQuitExecut() {
-        
-        return true;
-    }
-
-    private boolean doQuitListen() {
-        
-        return true;
-    }
-
-    private boolean doQuitPermit() {
-        
-        return true;
-    }
-    
-    private boolean doQuitConfig() {
-        
-        this.strDatabaseConnection = null;
-        this.strNameofLogo = null;
-        this.strNameofMain = null;
-
-        return true;
-    }
-    
-    private boolean doQuitDatabase() {
-        
-        this.objDBCollection = null;
-        this.objDBInstance = null;
-        this.objDBClient.close();
-        this.objDBClient = null;
-        this.objDBClientURI = null;
-
-        this.objExecutorService.shutdown();
-        
-        return true;
-    }
-    
-    /** logging **/
-
-    public boolean doLogO(String strFormat, Object... objArgs) {
-        
-        System.out.println(this.getConfigStrNameofLogo() + String.format(strFormat, objArgs));
-
-        return true;
-    }
-    
-    public boolean doLogO(CommandSender objSender, String strFormat, Object... objArgs) {
-        
-        System.out.println(this.getConfigStrNameofLogo() + String.format(strFormat, objArgs));
+        System.out.println(Config.getStrNameOfLogO() + String.format(strFormat, objArgs));
 
         objSender.sendMessage(String.format(strFormat, objArgs));
+
+        return true;
+    }
+
+    static public boolean doLogE(String strFormat, Object... objArgs) {
+        
+        System.err.println(Config.getStrNameOfLogE() + String.format(strFormat, objArgs));
+
+        return true;
+    }
+    
+    static public boolean doLogE(CommandSender objSender, String strFormat, Object... objArgs) {
+        
+        System.err.println(Config.getStrNameOfLogE() + String.format(strFormat, objArgs));
+
+        objSender.sendMessage(Config.getStrNameOfLogE() + String.format(strFormat, objArgs));
 
         return true;
     }
@@ -278,66 +159,21 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.doInit();
+        
+        objInstance = this;
+
+        doInit();
+    
     }
 
     @Override
     public void onDisable() {
-        this.doQuit();
-    }
-
-    public CompletableFuture<Void> onUserJoin(UUID objId, String strName) {
-        return CompletableFuture.runAsync(() -> {
-
-            Document objDoc = new Document("uuid", objId.toString());
-            objDoc.put("name", strName);
-            objDoc.put("time_join", System.currentTimeMillis());
-            objDoc.put("time_quit", 0.0);
-            objDoc.put("online", true);
-            objDoc.put("date_created", new Date());
-            
-            this.objDBCollection.insertOne(objDoc);
-        }, this.objExecutorService);
-    }
     
-    public CompletableFuture<Void> onUserQuit(UUID objId, String strName) {
-        return CompletableFuture.runAsync(() -> {
-            if (this.vetUser(objId).join()) {
-                
-                BasicDBObject objQuery = new BasicDBObject();
-                objQuery.put("uuid", objId.toString());
-                objQuery.put("online", true);
-                
-                Document objActivityDoc = this.objDBCollection.find(objQuery).first();
+        doQuit();
+        
+        objInstance = null;
 
-                long numTimeJoin = (long) objActivityDoc.get("time_join");
-                long numTimeQuit = System.currentTimeMillis();
-                long numTimePlay = numTimeQuit - numTimeJoin;
-
-                this.objDBCollection.updateOne(
-                    Filters.and(
-                        Filters.eq("uuid", objId.toString()),
-                        Filters.eq("online", 1)
-                    ), Updates.set("time_quit", numTimeQuit)
-                );
-                this.objDBCollection.updateOne(
-                    Filters.and(
-                        Filters.eq("uuid", objId.toString()),
-                        Filters.eq("online", 1)
-                    ), Updates.set("time_play", numTimePlay)
-                );
-                this.objDBCollection.updateOne(
-                    Filters.and(
-                        Filters.eq("uuid", objId.toString()),
-                        Filters.eq("online", 1)
-                    ), Updates.set("online", 0)
-                );
-
-            } else {
-                this.doLogO("could not find user join data: name = %s; uuid = %d;", strName, objId.toString());
-                return;
-            }
-        }, this.objExecutorService);
     }
+
 }
 /* endfile */

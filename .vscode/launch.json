@@ -2,36 +2,56 @@
     "version": "0.2.0",
     "inputs": [],
     "launch": {
-		"configurations": [ "config:launch_test" ],
-		"compounds": [ "compon:launch_test" ]
+		"configurations":
+        [
+            "config:attach_main",
+            "config:launch_test",
+        ],
+		"compounds":
+        [
+            "compon:attach_main",
+            "compon:launch_test",
+        ]
 	},
     "configurations": [
         {
             "type": "java",
-            "name": "Launch Main",
-            "request": "launch",
-            "mainClass": "src.test.nikochir.minetime.Main",
-            "projectName": "minetime_a882764c"
+            "name": "config:attach_main",
+            "projectName": "minetime_a882764c",
+            "internalConsoleOptions": "neverOpen",
+            "request": "attach",
+            "hostName": "localhost",
+            "port": 1739,
+            "timeout": 30000,
+            "sourcePaths": [
+                "$Auto"
+            ]
         },
         {
             "type": "java",
-            "name": "Launch Main",
-            "request": "launch",
-            "mainClass": "Main",
-            "projectName": "minetime_a882764c"
-        },
-        {
             "name": "config:launch_test",
-            "projectName": "minetime",
-            "type": "java",
+            "projectName": "minetime_a882764c",
             "request": "launch",
-            "mainClass": "src.test.nikochir.minetime.Main",
+            "mainClass": "nikochir.minetime.TestMain",
             "classPaths": [
                 "$Auto"
             ]
         }
     ],
     "compounds": [
+        {
+            "name": "compon:attach_main",
+            "configurations": [
+                { "name": "config:attach_main", "folder": "minetime" }
+            ],
+            "preLaunchTask": "",
+            "stopAll": false,
+            "presentation": {
+                "hidden": false,
+                "group": "attach",
+                "order": 1
+            }
+        },
         {
             "name": "compon:launch_test",
             "configurations": [

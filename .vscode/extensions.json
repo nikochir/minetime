@@ -1,7 +1,15 @@
 {
     "recommendations": [
         "vscjava.vscode-java-pack",
-        "redhat.java"
+        "mongodb.mongodb-vscode",
+        "vscjava.vscode-java-dependency",
+        "vscjava.vscode-java-debug",
+        "hediet.vscode-drawio",
+        "donjayamanne.githistory",
+        "wmanth.jar-viewer",
+        "vscjava.vscode-java-test",
+        "vscjava.vscode-maven",
+        "visualstudioexptteam.vscodeintellicode"
     ],
     "unwantedRecommendations": []
 }
