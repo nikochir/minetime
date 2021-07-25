@@ -48,7 +48,7 @@ public class ExecutTime extends Execut {
             
             String strName = strArgs[0];
             
-            if (Data.vetUser(strName).join()) {
+            if (Data.vetUser(strName)) {
 
                 Integer numDaysArg = null;
 
@@ -59,17 +59,10 @@ public class ExecutTime extends Execut {
                     Main.doLogE(objSender, "invalid days input!");
                 }
     
-                final int numDays = numDaysArg;
-                
-                Data.getDuration(strName, numDays)
-                    .thenAcceptAsync(
-                        numOnlineTime -> {
-                            Main.doLogO(objSender,
-                                "total time of \"%s\": %d hours (%d minutes) for %d days;",
-                                strName, numOnlineTime, numDays / 60000, numDays
-                            );
-                        }
-                    );
+                Main.doLogO(objSender,
+                    "total time of \"%s\": %d hours (%d minutes) for %d days;",
+                    strName, Data.getDuration(strName, numDaysArg), numDaysArg / 60000, numDaysArg
+                );
 
             } else {
                 Main.doLogE(objSender, "the user is not found! name: %s;", strName);

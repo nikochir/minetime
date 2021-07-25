@@ -31,8 +31,11 @@ public class ListenPlayer extends Listen {
         
         Player objPlayer = objEvent.getPlayer();
         
-        if (User.vetUser(objPlayer)) { User.getUser(objPlayer).onJoin(); }
-        else { User.setUser(objPlayer).onJoin(); }
+        if (User.vetUser(objPlayer)) {
+            User.getUser(objPlayer).onJoin();
+        } else {
+            User.setUser(objPlayer).onJoin();
+        }
 
     }
 
@@ -41,8 +44,14 @@ public class ListenPlayer extends Listen {
 
         Player objPlayer = objEvent.getPlayer();
         
-        if (User.vetUser(objPlayer)) { User.getUser(objPlayer).onQuit(); }
-        else { Main.doLogE("player is not registered! uuid: %s; name: %s;", objPlayer.getUniqueId().toString(), objPlayer.getName()); }
+        if (User.vetUser(objPlayer)) {
+            User.getUser(objPlayer).onQuit();
+        } else {
+            Main.doLogE(
+                "player is not registered! uuid: %s; name: %s;",
+                objPlayer.getUniqueId().toString(), objPlayer.getName()
+            );
+        }
 
     }
 
