@@ -5,7 +5,7 @@ package nikochir.minetime.execut;
 /* include */
 
 import nikochir.minetime.Main;
-
+import nikochir.minetime.execut.Execut;
 import nikochir.minetime.kernel.Data;
 import nikochir.minetime.kernel.User;
 
@@ -19,11 +19,20 @@ import org.bukkit.entity.Player;
 
 /* typedef */
 
-/* Executor class
+/* ExecutTime class
  * > Description:
- * -> ;
+ * -> basic plugin command to get user time;
 */
 public class ExecutTime extends Execut {
+
+    /* actions */
+
+    private void doMessage(CommandSender objSender, String strName, int numDays, long numTime) {
+        Main.doLogO(objSender,
+            "name: \"%s\"; days: %d; time: %dd:%dh:%dm:%ds;",
+            strName, numDays, (numTime / (60 * 60 * 24)), (numTime / (60 * 60)) % 24, (numTime / 60) % 60, numTime % 60
+        );
+    }
 
     /* handles */
 
@@ -41,37 +50,62 @@ public class ExecutTime extends Execut {
         
         } else if (strArgs.length == 1) {
             
-            Main.doLogE(objSender, "invalid argument count: %d;", strArgs.length);
-            return false;
-
-        } else if (strArgs.length == 2) {
-            
             String strName = strArgs[0];
             
             if (Data.vetUser(strName)) {
-
-                Integer numDaysArg = null;
-
-                try {
-                    numDaysArg = Integer.parseInt(strArgs[1]);
-                } catch (Exception exception) {
-                    numDaysArg = 1;
-                    Main.doLogE(objSender, "invalid days input!");
-                }
     
-                Main.doLogO(objSender,
-                    "total time of \"%s\": %d hours (%d minutes) for %d days;",
-                    strName, Data.getDuration(strName, numDaysArg), numDaysArg / 60000, numDaysArg
-                );
+                long numTime = Data.getUserTime(strName, 1);
+
+                doMessage(objSender, strName, 1, numTime);
+                
+            } else {
+                
+                Main.doLogE(objSender, "the user is not found! name: %s;", strName);
+                return false;
+                
+            }
+            
+        } else if (strArgs.length == 2) {
+            
+            String strName = strArgs[0];
+            String strDays = strArgs[1];
+
+            if (Data.vetUser(strName)) {
+                
+                
+                try {
+
+                    Integer numDays = null;
+                    numDays = Integer.parseInt(strDays);
+                    
+                    long numTime = Data.getUserTime(strName, numDays);
+                
+                    doMessage(objSender, strName, numDays, numTime);
+
+                    return true;
+                    
+                } catch (Exception exception) {
+                    Main.doLogE(objSender,
+                        "invalid days input: %s",
+                        strDays
+                    );
+                    return false;
+                }
 
             } else {
+            
                 Main.doLogE(objSender, "the user is not found! name: %s;", strName);
+                return false;
+            
             }
 
         } else {
+        
             Main.doLogE(objSender, "invalid argument count: %d;", strArgs.length);
             return false;
+        
         }
+
         return true;
     }
 }

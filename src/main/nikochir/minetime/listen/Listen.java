@@ -16,7 +16,7 @@ import org.bukkit.event.Listener;
 
 /* Listen class
  * > Description:
- * -> ;
+ * -> basic plugin event listener;
 */
 public class Listen implements Listener {
 

@@ -15,7 +15,7 @@ import org.bukkit.permissions.Permission;
 
 /* Permit class
  * > Description:
- * -> ;
+ * -> basic plugin permission;
 */
 public class Permit extends Permission {
     

@@ -2,16 +2,6 @@
 
 package nikochir.minetime;
 
-/* include */
-
-import nikochir.minetime.config.Config;
-import nikochir.minetime.execut.Execut;
-import nikochir.minetime.listen.Listen;
-import nikochir.minetime.permit.Permit;
-
-import nikochir.minetime.kernel.Data;
-import nikochir.minetime.kernel.User;
-
 /** java **/
 
 import java.util.UUID;
@@ -24,6 +14,14 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import nikochir.minetime.Main;
+import nikochir.minetime.config.Config;
+import nikochir.minetime.execut.Execut;
+import nikochir.minetime.kernel.Data;
+import nikochir.minetime.kernel.User;
+import nikochir.minetime.listen.Listen;
+import nikochir.minetime.permit.Permit;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -33,13 +31,15 @@ import org.bukkit.entity.HumanEntity;
 
 /* typedef */
 
-/** Main class
+/* Main class
  * > Description:
- * -> ;
+ * -> core manager class;
 */
 public final class Main extends JavaPlugin {
 
-    /* members */
+    /* statics */
+    
+    static public final int NUM_DAYS = 33;
 
     static private Main objInstance;
     

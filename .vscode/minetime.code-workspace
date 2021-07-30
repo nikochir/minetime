@@ -162,6 +162,35 @@
 		/** vsintellicode **/
 		"vsintellicode.java.completionsEnabled": true,
 		"vsintellicode.modelDownloadPath": null,
+		/** mongodb **/
+		"mongodbLanguageServer.maxNumberOfProblems": 100,
+		"mongodbLanguageServer.trace.server": { "format": "text", "verbosity": "off" },
+		"mdb.shell": "mongosh",
+		"mdb.defaultLimit": 10,
+		"mdb.connectionSaving.defaultConnectionSavingLocation": "Global",
+		"mdb.confirmRunAll": true,
+		"mdb.showMongoDBConnectionExplorer": true,
+		"mdb.showMongoDBHelpExplorer": true,
+		"mdb.showMongoDBPlaygrounds": true,
+		"mdb.sendTelemetry": false,
+		"mdb.connectionSaving.hideOptionToChooseWhereToSaveNewConnections": true,
+		"mdb.useDefaultTemplateForPlayground": true,
+		"mdb.excludeFromPlaygroundsSearch": [
+			"**/.*",
+			"**/_output/**",
+			"**/bower_components/**",
+			"**/build/**",
+			"**/dist/**",
+			"**/node_modules/**",
+			"**/out/**",
+			"**/output/**",
+			"**/release/**",
+			"**/releases/**",
+			"**/static/**",
+			"**/target/**",
+			"**/third_party/**",
+			"**/vendor/**"
+		],
 	}
 }
 /* endfile */

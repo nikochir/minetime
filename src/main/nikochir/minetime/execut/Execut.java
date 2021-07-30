@@ -5,6 +5,7 @@ package nikochir.minetime.execut;
 /* include */
 
 import nikochir.minetime.Main;
+import nikochir.minetime.execut.ExecutTime;
 
 /** bukkit **/
 
@@ -16,7 +17,7 @@ import org.bukkit.command.CommandSender;
 
 /* Executor class
  * > Description:
- * -> ;
+ * -> core plugin command manager;
 */
 public class Execut implements CommandExecutor {
     

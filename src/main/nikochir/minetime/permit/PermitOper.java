@@ -2,6 +2,8 @@
 
 package nikochir.minetime.permit;
 
+import nikochir.minetime.permit.Permit;
+
 /* include */
 
 /* bukkit */

@@ -7,6 +7,7 @@ package nikochir.minetime.listen;
 import nikochir.minetime.Main;
 import nikochir.minetime.kernel.Data;
 import nikochir.minetime.kernel.User;
+import nikochir.minetime.listen.Listen;
 
 /** bukkit **/
 
@@ -20,7 +21,8 @@ import org.bukkit.entity.Player;
 
 /* ListenPlayer class
  * > Description:
- * -> ;
+ * -> listener for player related events:
+ * --> join/quit event response;
 */
 public class ListenPlayer extends Listen {
     

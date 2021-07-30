@@ -15,8 +15,8 @@
   </description>
   <developers>
     <developer>
-      <name>Nickodim</name>
-      <organization>Jacksa</organization>
+      <name>NickodimCherepanov</name>
+      <organization>NyteCode</organization>
     </developer>
     <developer>
       <name>Tanwar</name>
@@ -44,6 +44,10 @@
   <repositories>
 		<!-- minecraft -->
     <repository>
+      <id>spigot-repo</id>
+      <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+    </repository>
+    <repository>
       <id>papermc-repo</id>
       <url>https://papermc.io/repo/repository/maven-public/</url>
     </repository>
@@ -53,11 +57,22 @@
       <url>https://mvnrepository.com/artifact/org.mongodb</url>
       <name>repodata</name>
     </repository-->
+		<!-- logging -->
+    <repository>
+      <id>slf4j</id>
+      <url>https://mvnrepository.com/artifact/org.slf4j</url>
+    </repository>
   </repositories>
   <!-- what artifacts to use -->
   <dependencies>
     <!-- native -->
     <!-- minecraft -->
+    <dependency>
+      <groupId>org.spigotmc</groupId>
+      <artifactId>spigot-api</artifactId>
+      <version>1.16.5-R0.1-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>com.destroystokyo.paper</groupId>
       <artifactId>paper-api</artifactId>
@@ -67,15 +82,21 @@
     <!-- database -->
     <dependency>
       <groupId>org.mongodb</groupId>
-      <artifactId>mongodb-driver</artifactId>
-      <version>3.2.2</version>
-      <scope>compile</scope>
+      <artifactId>mongodb-driver-sync</artifactId>
+      <version>4.3.0</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.mongodb</groupId>
       <artifactId>bson</artifactId>
       <version>4.2.1</version>
-      <scope>compile</scope>
+      <scope>provided</scope>
+    </dependency>
+    <!-- logging -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.9</version>
     </dependency>
   </dependencies>
   <!-- resulting target configuration -->
@@ -103,8 +124,8 @@
     </testResources>
     <!-- lock down plugins versions to avoid using maven defaults -->
 		<pluginManagement>
-			<plugins>
-				<!-- -->
+      <plugins>
+        <!-- -->
     	  <plugin>
     	    <groupId>org.apache.maven.plugins</groupId>
     	    <artifactId>maven-compiler-plugin</artifactId>
@@ -131,6 +152,49 @@
     	      </execution>
     	    </executions>
     	  </plugin>
+    	  <!-- -->
+        <!--plugin>
+    	    <groupId>org.apache.maven.plugins</groupId>
+    	    <artifactId>maven-assembly-plugin</artifactId>
+    	    <version>2.5.3</version>
+          <configurations>
+            <configuration>
+              <descriotRefs>
+              <descriptorRef>jar-with-dependencies</descriptorRef>
+              </descriotRefs>
+            </configuration>
+          </configurations>
+          <executions>
+            <execution>
+              <id>assemble-all</id>
+              <phase>package</phase>
+              <goals>
+                <goal>single</goal>
+              </goals>
+            </execution>
+          </executions>
+    	  </plugin-->
+        <!-- to copy all deps automatically -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>2.9</version>
+          <executions>
+            <execution>
+              <id>copy-dependencies</id>
+              <phase>install</phase>
+              <goals>
+                <goal>copy-dependencies</goal>
+              </goals>
+              <configuration>
+                <outputDirectory>{project.build.directory}/lib</outputDirectory>
+                <overWriteReleases>false</overWriteReleases>
+                <overWriteSnapshots>false</overWriteSnapshots>
+                <overWriteIfNewer>true</overWriteIfNewer>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
     	</plugins>
 		</pluginManagement>
   </build>

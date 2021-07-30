@@ -12,6 +12,10 @@ import nikochir.minetime.kernel.User;
 
 import java.util.UUID;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import java.util.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -21,17 +25,18 @@ import java.time.ZoneOffset;
 import com.mongodb.DBObject;
 import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
+import com.mongodb.MongoClientSettings;
+import com.mongodb.ConnectionString;
 
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
-
-import com.mongodb.operation.OrderBy;
+import com.mongodb.client.model.Indexes;
 
 /** bson **/
 
@@ -42,140 +47,120 @@ import org.bson.conversions.Bson;
 
 /* Data class
  * > Description:
- * -> stores all relevant ot the database stuff;
+ * -> stores all relevant stuff for the database;
 */
 public class Data {
     
-    /* members */
+    /* statics */
     
+    static private ConnectionString objConnection;
+    static private MongoClientSettings objSettings;
     static private MongoClient objDBClient;
-    static private MongoClientURI objDBClientURI;
     static private MongoDatabase objDBInstance;
     static private MongoCollection<Document> objDBCollection;
     
     /* getters */
 
     static public MongoCollection<Document> getCollection() { return objDBCollection; }
-
-    static public long getDuration(UUID objUUID, int numDays) {
-    
-        BasicDBObject objQuery = getDurationQuery(objUUID, numDays);
-        MongoCursor<Document> objCursor = objDBCollection.find(objQuery).iterator();
-        
-        return getDurationTime(objCursor);
-    
-    }
-    static public long getDuration(String strName, int numDays) {
-        
-        BasicDBObject objQuery = getDurationQuery(strName, numDays);
-        MongoCursor<Document> objCursor = objDBCollection.find(objQuery).iterator();
-        
-        return getDurationTime(objCursor);
-    
-    }
-    static public long getDuration(UUID objUUID, String strName, int numDays) {
-        
-        BasicDBObject objQuery = getDurationQuery(objUUID, strName, numDays);
-        MongoCursor<Document> objCursor = objDBCollection.find(objQuery).iterator();
-        
-        return getDurationTime(objCursor);
-    
-    }
-    
-    static private long getDurationTime(MongoCursor<Document> objCursor) {
-        long numActiveTime = 0;
-        
-        while(objCursor.hasNext()) {
-            Document objDoc = (Document)objCursor.next();
-            numActiveTime += objDoc.getLong("time_play");
-        }
-
-        return numActiveTime;
-    }
-
-    static private BasicDBObject getDurationQuery(String strName, int numDays) {
-        
-        BasicDBObject objQuery = getDurationQuery(numDays);
-        
-        objQuery.put("name", strName);
-        
-        return objQuery;
-
-    }
-    static private BasicDBObject getDurationQuery(UUID objUUID, int numDays) {
-        
-        BasicDBObject objQuery = getDurationQuery(numDays);
-        
-        objQuery.put("uuid", objUUID.toString());
-        
-        return objQuery;
-    }
-    static private BasicDBObject getDurationQuery(UUID objUUID, String strName, int numDays) {
-        
-        BasicDBObject objQuery = getDurationQuery(numDays);
-        
-        objQuery.put("uuid", objUUID.toString());
-        objQuery.put("name", strName);
-        
-        return objQuery;
-    }
-    static private BasicDBObject getDurationQuery(int numDays) {
-        
-        BasicDBObject objQuery = new BasicDBObject();
-
-        objQuery.put("online", false);
-        objQuery.put("time_join", getDurationDBObject(numDays));
-
-        return objQuery;
-    }
-
-    static private DBObject getDurationDBObject(int numDays) {
-    
-        LocalDateTime objTimeNow = LocalDateTime.now();
-        
-        long numScale = 1000;
-        
-        long numTimeNow = objTimeNow.toEpochSecond(ZoneOffset.UTC);
-        numTimeNow *= numScale;
-        
-        long numTimeNowMinusDays = objTimeNow.minusDays(numDays).toEpochSecond(ZoneOffset.UTC);
-        numTimeNowMinusDays *= numScale;
-
-        /* greater_than/equal */
-        BasicDBObjectBuilder objBuilder = BasicDBObjectBuilder.start("$gte", numTimeNowMinusDays);
-        /* lesser_than/equal */
-        objBuilder.add("$lte", numTimeNow);
-
-        return objBuilder.get();
+    static public Document getDocument(Bson objFilter)      { return objDBCollection.find(objFilter).first(); }
+   
+    static public long getUserTime(String strName, int numDays) {
+        return User.getUser(getDocument(User.getFilter(strName)).getString("uuid")).getTime(numDays);
     }
 
     /* setters */
     
+    static public boolean setupIndex(String... strIndexes) {
+        objDBCollection.createIndex(Indexes.ascending(strIndexes));
+        return true;
+    }
+    static public boolean resetIndex(String... strIndexes) {
+        objDBCollection.dropIndex(Indexes.ascending(strIndexes));
+        return true;
+    }
+
+    static public boolean setDocument(Document objDocument) {
+        objDBCollection.insertOne(objDocument);
+        return true;
+    }
+    static public boolean setDocument(Bson objWhere, Bson objWhat) {
+        objDBCollection.updateOne(objWhere, objWhat);
+        return true;
+    }
+    static public <TName> boolean setDocument(Bson objWhere, String strKey, TName objVal) {
+        return setDocument(objWhere, Updates.set(strKey, objVal));
+    }
+
+    static public boolean setDocuments(List<Document> objDocuments) {
+        objDBCollection.insertMany(objDocuments);
+        return true;
+    }
+    static public boolean setDocuments(Document ... objDocuments) {
+        return setDocuments(Arrays.asList(objDocuments));
+    }
+    
     /* vetters */
     
-    static public boolean vetUser(UUID objUUID) { return vetUser(User.getFilter(objUUID)); }
-    static public boolean vetUser(String strName) { return vetUser(User.getFilter(strName)); }
-    static public boolean vetUser(UUID objUUID, String strName) { return vetUser(User.getFilter(objUUID, strName)); }
-    static public boolean vetUser(Bson objFilter) { return objDBCollection.count(objFilter) > 0; }
+    static public boolean vetUser(UUID objUUID)                 { return vetDocument(User.getFilter(objUUID)); }
+    static public boolean vetUser(String strName)               { return vetDocument(User.getFilter(strName)); }
+    static public boolean vetUser(UUID objUUID, String strName) { return vetDocument(User.getFilter(objUUID, strName)); }
+    
+    static public boolean vetDocument(Bson objFilter)           { return objDBCollection.countDocuments(objFilter) > 0; }
+    static public boolean vetDocument(Bson ... objFilters)      { return vetDocument(Filters.and(objFilters)); }
 
     /* actions */
 
     static public boolean doInit() {
+
+        String strConnection = Config.getStr("nameof_connection");
+        String strDatabase = Config.getStr("nameof_database");
+        String strCollection = Config.getStr("nameof_collection");
+
+        return doInit(strConnection, strDatabase, strCollection);
+}
+    static public boolean doInit(String strConnection, String strDatabase, String strCollection) {
         
-        objDBClientURI = new MongoClientURI(Config.getStr("nameof_connection"));
-        objDBClient = new MongoClient(objDBClientURI);
-        objDBInstance = objDBClient.getDatabase(Config.getStr("nameof_database"));
-        objDBCollection = objDBInstance.getCollection(Config.getStr("nameof_collection"));
-
-        int numOrderDescend = OrderBy.DESC.getIntRepresentation();
-        objDBCollection.createIndex( new Document("uuid", numOrderDescend) );
-        objDBCollection.createIndex( new Document("name", numOrderDescend) );
-
+        doInitDBClient(strConnection);
+        doInitDBInstance(objDBClient, strDatabase);
+        doInitDBCollection(objDBInstance, strCollection);
 
         return true;
-
+    }
+    
+    static private boolean doInitDBClient(String strConnection) {
+        if (strConnection == null) {
+            Main.doLogE("string connection is invalid!");
+            return false;
+        } else {
+            objConnection = new ConnectionString(strConnection);
+            objSettings = MongoClientSettings.builder()
+                .applyConnectionString(objConnection)
+                .build();
+            objDBClient = MongoClients.create(objSettings);
+            return true;
+        }
     }
 
+    static private boolean doInitDBInstance(MongoClient objClient, String strDatabase) {
+        if (objClient == null) {
+            Main.doLogE("client is null!");
+            return false;
+        } else {
+            objDBInstance = objClient.getDatabase(strDatabase);
+            return true;
+        }
+    }
+    
+    static private boolean doInitDBCollection(MongoDatabase objInstance, String strCollection) {
+        if (objInstance == null) {
+            Main.doLogE("database is null!");
+            return false;
+        } else {
+            objDBCollection = objInstance.getCollection(strCollection);
+            return true;
+        }
+    }
+    
     static public boolean doQuit() {
         
         objDBClient.close();
@@ -183,7 +168,8 @@ public class Data {
         objDBCollection = null;
         objDBInstance = null;
         objDBClient = null;
-        objDBClientURI = null;
+        objSettings = null;
+        objConnection = null;
         
         return true;
 
