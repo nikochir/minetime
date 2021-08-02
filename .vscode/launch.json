@@ -32,7 +32,7 @@
             "name": "config:launch_test",
             "projectName": "minetime_a882764c",
             "request": "launch",
-            "mainClass": "nikochir.minetime.TestMain",
+            "mainClass": "main.minetime.TestMain",
             "classPaths": [
                 "$Auto"
             ]

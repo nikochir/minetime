@@ -1,7 +1,7 @@
 #main#
 name: minetime
 version: ${project.version}
-main: nikochir.minetime.Main
+main: main.minetime.Main
 api-version: 1.16
 #work#
 load: STARTUP
