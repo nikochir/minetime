@@ -1,5 +1,7 @@
+/* schemas */
 {
-    "recommendations": [
+    "recommendations":
+    [
         "vscjava.vscode-java-pack",
         "mongodb.mongodb-vscode",
         "vscjava.vscode-java-dependency",

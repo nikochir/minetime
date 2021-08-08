@@ -1,5 +1,7 @@
+/* schemas */
 {
-	"folders": [
+	"folders":
+	[
 		//*/
 		{
 			"name": "minetime",
@@ -13,7 +15,8 @@
 		},
 		//*/
 	],
-	"settings": {
+	"settings":
+	{
 		/* vscode */
 		/** window **/
 		"window.title": "${appName}",

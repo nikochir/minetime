@@ -103,22 +103,22 @@
   <build>
 		<!-- where to place and how to name the target -->
     <finalName>${project.artifactId}</finalName>
-		<directory>${project.basedir}/../bin/jav</directory>
-		<sourceDirectory>${project.basedir}/../src/jav/main</sourceDirectory>
-    <outputDirectory>${project.basedir}/../bin/jav/main</outputDirectory>
-    <testSourceDirectory>{project.basedir}/../src/jav/test</testSourceDirectory>
-    <testOutputDirectory>${project.basedir}/../bin/jav/test</testOutputDirectory>
-    <scriptSourceDirectory>${project.basedir}/../src/jav/main</scriptSourceDirectory>
+		<directory>${project.basedir}/../../bin/jav</directory>
+		<sourceDirectory>${project.basedir}/../../src/jav/main</sourceDirectory>
+    <outputDirectory>${project.basedir}/../../bin/jav/main</outputDirectory>
+    <testSourceDirectory>{project.basedir}/../../src/jav/test</testSourceDirectory>
+    <testOutputDirectory>${project.basedir}/../../bin/jav/test</testOutputDirectory>
+    <scriptSourceDirectory>${project.basedir}/../../src/jav/main</scriptSourceDirectory>
 		<!-- objects are to be places in the .jar root (not compile, but use) -->
 		<resources>
       <resource>
-        <directory>${project.basedir}/../rsc/main</directory>
+        <directory>${project.basedir}/../../rsc/main</directory>
         <filtering>true</filtering>
       </resource>
     </resources>
 		<testResources>
       <testResource>
-        <directory>${project.basedir}/../rsc/test</directory>
+        <directory>${project.basedir}/../../rsc/test</directory>
         <filtering>true</filtering>
       </testResource>
     </testResources>
