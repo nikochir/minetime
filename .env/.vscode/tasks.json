@@ -14,7 +14,7 @@
                 "isDefault": true
             },
             "options": {
-                "cwd": "${workspaceFolder}/.mvn",
+                "cwd": "${workspaceFolder}/.maven",
                 "env": {},
                 "shell": {
                     "args": [],
@@ -52,7 +52,7 @@
                 "isDefault": true
             },
             "options": {
-                "cwd": "${workspaceFolder}/.mvn",
+                "cwd": "${workspaceFolder}/.maven",
                 "env": {},
                 "shell": {
                     "args": [],

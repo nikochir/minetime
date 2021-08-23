@@ -109,8 +109,8 @@ pom.xml.next
 release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
-.mvn/timing.properties
-.mvn/wrapper/maven-wrapper.jar
+.maven/timing.properties
+.maven/wrapper/maven-wrapper.jar
 .flattened-pom.xml
 
 # common working directory

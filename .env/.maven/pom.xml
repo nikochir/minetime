@@ -54,13 +54,13 @@
 		<!-- database -->
     <!--repository>
       <id>mongodb</id>
-      <url>https://.mvnrepository.com/artifact/org.mongodb</url>
+      <url>https://.mavenrepository.com/artifact/org.mongodb</url>
       <name>repodata</name>
     </repository-->
 		<!-- logging -->
     <repository>
       <id>slf4j</id>
-      <url>https://.mvnrepository.com/artifact/org.slf4j</url>
+      <url>https://.mavenrepository.com/artifact/org.slf4j</url>
     </repository>
   </repositories>
   <!-- what artifacts to use -->
