@@ -4,14 +4,19 @@
 	[
 		//*/
 		{
-			"name": "minetime",
+			"name": "environ",
 			"path": "../"
+		},
+		//*/
+		{
+			"name": "minetime",
+			"path": "../../"
 		},
 		//*/
 		//*/
 		{
 			"name": "server",
-			"path": "../../server/"
+			"path": "../../../server/"
 		},
 		//*/
 	],
@@ -50,7 +55,7 @@
 		/** terminal **/
 		"terminal.explorerKind": "integrated",
 		"terminal.integrated.gpuAcceleration": "on",
-		"terminal.integrated.cwd": "${workspaceFolder}",
+		"terminal.integrated.cwd": "${workspaceFolder:minetime",
 		"terminal.integrated.splitCwd": "workspaceRoot",
 		"terminal.integrated.confirmOnExit": true,
 		"terminal.integrated.scrollback": 1000,
@@ -104,15 +109,15 @@
 		"java.server.launchMode": "Hybrid",
 		"java.contentProvider.preferred": "",
 		"java.settings.url":
-		"${workspaceFolder}/.maven/settings.xml",
+		"${workspaceFolder:minetime/.maven/settings.xml",
 		/*** project ***/
 		"java.project.exportJar.targetPath":
-		"${workspaceFolder}/bin/target/${workspaceFolderBasename}.jar",
+		"${workspaceFolder:minetime/bin/target/${workspaceFolder:minetime}Basename}.jar",
 		"java.project.outputPath":
-		"./bin/jav/",
+		"./bin/",
 		"java.project.sourcePaths":
 		[
-			"src/jav"
+			"./src/"
 		],
 		"java.project.referencedLibraries":
 		[
@@ -123,9 +128,9 @@
 		"java.configuration.checkProjectSettingsExclusions": false,
 		"java.configuration.updateBuildConfiguration": "disabled",
 		"java.configuration.maven.userSettings":
-		"${workspaceFolder}/.maven/settings.xml",
+		"${workspaceFolder:minetime/.maven/settings.xml",
 		"java.configuration.maven.globalSettings":
-		"${workspaceFolder}/.maven/settings.xml",
+		"${workspaceFolder:minetime/.maven/settings.xml",
 		/*** completion ***/
 		"java.completion.enabled": true,
 		"java.completion.overwrite": true,
